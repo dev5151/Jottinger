@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menuAddNote"
+        android:title="Add Note"
+        android:icon="@drawable/ic_add_note"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/menuAddPic"
+        android:title="Add Photo"
+        android:icon="@drawable/ic_add_image"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/menuAddList"
+        android:title="Add List"
+        android:icon="@drawable/ic_add_list"
+        app:showAsAction="ifRoom"/>
+
+</menu>
