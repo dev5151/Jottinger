@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#292929</color>
     <color name="colorPrimaryDark">#292929</color>
-    <color name="colorAccent">#FD8E38</color>
+    <color name="colorAccent">#FDBE38</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorSearchIcon">#DBDBDB</color>
     <color name="colorTextHint">#787878</color>
@@ -12,7 +12,7 @@
     <color name="colorDefautNoteColor">#333333</color>
     <color name="colorNoteSubtitleText">#FAFAFA</color>
     <color name="colorMiscellaneousBackground">#1F1F1F</color>
-    <color name="colorNoteColor2">#FD8E38</color>
+    <color name="colorNoteColor2">#FDBE38</color>
     <color name="colorNoteColor3">#FF4842</color>
     <color name="colorNoteColor4">#3A52Fc</color>
     <color name="colorNoteColor5">#000000</color>
