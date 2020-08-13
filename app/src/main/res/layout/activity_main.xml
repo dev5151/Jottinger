@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMiscellaneousBackground"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@android:color/transparent"
+        android:backgroundTint="@color/colorQuickActionBackground"
         android:clickable="false"
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"

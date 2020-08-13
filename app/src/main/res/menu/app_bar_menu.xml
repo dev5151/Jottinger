@@ -2,19 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menuAddNote"
-        android:title="Add Note"
+    <item
+        android:id="@+id/menuAddNote"
         android:icon="@drawable/ic_add_note"
-        app:showAsAction="ifRoom"/>
+        android:iconTint="@color/colorIcons"
+        android:title="Add Note"
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/menuAddPic"
-        android:title="Add Photo"
+    <item
+        android:id="@+id/menuAddPic"
         android:icon="@drawable/ic_add_image"
-        app:showAsAction="ifRoom"/>
+        android:iconTint="@color/colorIcons"
+        android:title="Add Photo"
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/menuAddList"
-        android:title="Add List"
+    <item
+        android:id="@+id/menuAddList"
         android:icon="@drawable/ic_add_list"
-        app:showAsAction="ifRoom"/>
+        android:iconTint="@color/colorIcons"
+        android:title="Add List"
+        app:showAsAction="ifRoom" />
 
 </menu>
