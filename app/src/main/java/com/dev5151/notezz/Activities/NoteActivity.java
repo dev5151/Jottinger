@@ -1,4 +1,4 @@
-package com.dev5151.notezz;
+package com.dev5151.notezz.Activities;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.dev5151.notezz.R;
 
 public class NoteActivity extends AppCompatActivity {
 
