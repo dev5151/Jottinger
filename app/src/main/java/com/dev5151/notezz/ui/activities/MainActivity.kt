@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.dev5151.notezz.NoteViewModel
 import com.dev5151.notezz.R
 import com.dev5151.notezz.adapter.NoteAdapter
@@ -69,7 +70,7 @@ class MainActivity : DaggerAppCompatActivity() {
             noteAdapter = NoteAdapter(
                     allNotes
             )
-            layoutManager = LinearLayoutManager(this.context)
+            layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
             adapter = noteAdapter
         }
     }

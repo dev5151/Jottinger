@@ -9,7 +9,7 @@ import com.dev5151.notezz.data.Note
 import com.dev5151.notezz.ui.NoteClickInterface
 import kotlinx.android.synthetic.main.note_item.view.*
 
-class NoteAdapter(noteList:List<Note>): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(noteList: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private val notes = mutableListOf<Note>()
 
@@ -31,16 +31,10 @@ class NoteAdapter(noteList:List<Note>): RecyclerView.Adapter<NoteAdapter.NoteVie
         return notes.size
     }
 
-    class NoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Note) {
             itemView.tvTitle.text = item.title
-            if(item.subtitle?.isEmpty()!!){
-                itemView.tvSubtitle.visibility=View.GONE
-            }else{
-                itemView.tvSubtitle.text = item.subtitle
-
-            }
-
+            itemView.tvSubtitle.text = item.subtitle
             itemView.tvDateTime.text = item.dateTime
             //Handle item click
             itemView.setOnClickListener {
