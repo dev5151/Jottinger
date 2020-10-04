@@ -55,7 +55,7 @@ class NoteActivity : DaggerAppCompatActivity() {
 
         noteViewModel.saveNote(title, subtitle, note)
         Toast.makeText(this,"Note Saved",Toast.LENGTH_SHORT).show()
-
+        finish()
     }
 
     private fun setupViewModel() {
