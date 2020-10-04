@@ -9,21 +9,21 @@ import com.dev5151.notezz.data.NoteDao
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NotesDatabase : RoomDatabase() {
-    abstract fun noteDao(): NoteDao?
+    abstract fun getNoteDao(): NoteDao
 
     companion object {
-        private var notesDatabase: NotesDatabase? = null
+        private var instance: NotesDatabase? = null
 
         @Synchronized
         fun getDatabase(context: Context?): NotesDatabase? {
-            if (notesDatabase == null) {
-                notesDatabase = Room.databaseBuilder(
+            if (instance == null) {
+                instance = Room.databaseBuilder(
                         context!!,
                         NotesDatabase::class.java,
                         "notes_db"
                 ).build()
             }
-            return notesDatabase
+            return instance
         }
     }
 }
