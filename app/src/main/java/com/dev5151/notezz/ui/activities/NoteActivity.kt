@@ -2,24 +2,35 @@ package com.dev5151.notezz.ui.activities
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Patterns
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.dev5151.notezz.NoteViewModel
 import com.dev5151.notezz.R
+import com.dev5151.notezz.data.Note
 import com.dev5151.notezz.di.ViewModelProviderFactory
 import com.dev5151.notezz.databinding.ActivityNoteBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_note.*
+import kotlinx.android.synthetic.main.layout_add_url_dialog.*
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 
@@ -35,6 +46,10 @@ class NoteActivity : DaggerAppCompatActivity() {
     private var selectedNoteColor: String = "#333333"
 
     private var imagePath = ""
+
+    private var webLink = ""
+
+    private var alreadyAvailableNote: Note? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +67,35 @@ class NoteActivity : DaggerAppCompatActivity() {
             finish()
         }
 
+        if (intent.getBooleanExtra("isViewOrUpdate", false)) {
+            alreadyAvailableNote = intent.getSerializableExtra("note") as Note?
+            setViewOrUpdateNote()
+        }
+
         initMiscellaneous()
         setSubTitleIndicatorColor()
 
+    }
+
+    private fun setViewOrUpdateNote() {
+        binding.edtNoteTitle.setText(alreadyAvailableNote?.title)
+        binding.edtSubTitle.setText(alreadyAvailableNote?.subtitle)
+        binding.edtNote.setText(alreadyAvailableNote?.noteText)
+        binding.tvDateTime.text = alreadyAvailableNote?.dateTime
+        if (alreadyAvailableNote!!.imagePath != null && alreadyAvailableNote!!.imagePath.toString().trim().isNotEmpty()) {
+            binding.imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote!!.imagePath))
+            imageNote.visibility = View.VISIBLE
+            imagePath = alreadyAvailableNote!!.imagePath.toString()
+        }else{
+            binding.imageNote.visibility=View.GONE
+        }
+
+        if (alreadyAvailableNote!!.web_link != null && alreadyAvailableNote!!.web_link.toString().trim().isNotEmpty()) {
+            binding.tvWebUrl.text = alreadyAvailableNote!!.web_link
+            binding.layoutWebUrl.visibility = View.VISIBLE
+        }else{
+            binding.imageNote.visibility=View.GONE
+        }
     }
 
 
@@ -70,7 +111,20 @@ class NoteActivity : DaggerAppCompatActivity() {
         val subtitle = binding.edtSubTitle.text.toString()
         val note = binding.edtNote.text.toString()
 
-        noteViewModel.saveNote(title, subtitle, note, imagePath, selectedNoteColor)
+        if (binding.layoutWebUrl.visibility == View.VISIBLE) {
+            webLink = binding.tvWebUrl.text.toString()
+
+        }
+        /*   if (alreadyAvailableNote != null) {
+               noteViewModel.saveNote(alreadyAvailableNote!!.id, title, subtitle, note, imagePath, selectedNoteColor, webLink)
+           }
+   */
+        if (alreadyAvailableNote == null) {
+            noteViewModel.saveNote(0, title, subtitle, note, imagePath, selectedNoteColor, webLink)
+        } else {
+            noteViewModel.updateNote(note = Note(alreadyAvailableNote!!.id, title, subtitle, noteViewModel.dateTime, note, imagePath, selectedNoteColor, webLink))
+        }
+
         Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -138,6 +192,15 @@ class NoteActivity : DaggerAppCompatActivity() {
             setSubTitleIndicatorColor()
         }
 
+        if (alreadyAvailableNote != null && alreadyAvailableNote!!.color != null) {
+            when (alreadyAvailableNote!!.color) {
+                "#FDBE38" -> binding.layoutMisc.imgColorYellow.performClick()
+                "#FF4842" -> binding.layoutMisc.imgColorRed.performClick()
+                "#3A52Fc" -> binding.layoutMisc.imgColorBlue.performClick()
+                "#000000" -> binding.layoutMisc.imgColorBlack.performClick()
+            }
+        }
+
         binding.layoutMisc.layoutAddImage.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -149,6 +212,11 @@ class NoteActivity : DaggerAppCompatActivity() {
             } else {
                 pickImage()
             }
+        }
+
+        binding.layoutMisc.layoutAddUrl.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            showUrlDialog()
         }
     }
 
@@ -175,6 +243,35 @@ class NoteActivity : DaggerAppCompatActivity() {
         }
         return filePath
 
+    }
+
+    private fun showUrlDialog() {
+        val builder = AlertDialog.Builder(this@NoteActivity)
+        val view = LayoutInflater.from(this).inflate(R.layout.layout_add_url_dialog, binding.root.findViewById(R.id.layoutWebUrl), false)
+        builder.setView(view)
+
+        val alertDialog = builder.create()
+        if (alertDialog.window != null) {
+            alertDialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+        }
+
+        val urlEdt: EditText = view.findViewById(R.id.edtUrl)
+        view.findViewById<TextView>(R.id.tv_add).setOnClickListener {
+            if (urlEdt.text.toString().trim().isEmpty()) {
+                Toast.makeText(applicationContext, "Enter Url", Toast.LENGTH_LONG).show()
+            } else if (!Patterns.WEB_URL.matcher(urlEdt.text.toString()).matches()) {
+                Toast.makeText(this, "Enter a valid url", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.tvWebUrl.text = urlEdt.text.toString()
+                binding.layoutWebUrl.visibility = View.VISIBLE
+                alertDialog.dismiss()
+            }
+        }
+        view.findViewById<TextView>(R.id.tv_cancel).setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     private fun setSubTitleIndicatorColor() {

@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dev5151.notezz.R
 import com.dev5151.notezz.data.Note
+import com.dev5151.notezz.ui.NoteClickInterface
 import kotlinx.android.synthetic.main.note_item.view.*
 
-class NoteAdapter(noteList: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(noteList: List<Note>, private val noteClickInterface: NoteClickInterface) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private val notes = mutableListOf<Note>()
 
@@ -21,18 +22,19 @@ class NoteAdapter(noteList: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.note_item, parent, false)
-        return NoteViewHolder(view)
+        return NoteViewHolder(view, noteClickInterface)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.setNote(note = notes[position])
+
     }
 
     override fun getItemCount(): Int {
         return notes.size
     }
 
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View, private val noteClickInterface: NoteClickInterface) : RecyclerView.ViewHolder(itemView) {
         fun setNote(note: Note) {
             itemView.tvTitle.text = note.title
             itemView.tvSubtitle.text = note.subtitle
@@ -53,10 +55,9 @@ class NoteAdapter(noteList: List<Note>) : RecyclerView.Adapter<NoteAdapter.NoteV
                 itemView.imgNote.visibility = View.GONE
             }
 
-
             //Handle item click
             itemView.setOnClickListener {
-
+                noteClickInterface.noteClick(adapterPosition, note)
             }
         }
     }

@@ -169,5 +169,34 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAddUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="18dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_add_url"
+                app:tint="@color/colorIcons"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:includeFontPadding="false"
+                android:text="Add URL"
+                android:textColor="@color/colorIcons"
+                android:textSize="16sp" />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

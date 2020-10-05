@@ -18,9 +18,9 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
           activity.onBackPressed()
       }
   */
-    fun saveNote(title: String, subtitle: String, note: String, imagePath: String, color: String) {
+    fun saveNote(id: Int, title: String, subtitle: String, note: String, imagePath: String, color: String, webLink: String) {
 
-        insert(Note(0, title, subtitle, dateTime, note, imagePath, color))
+        insert(Note(0, title, subtitle, dateTime, note, imagePath, color, webLink))
     }
 
 
@@ -48,5 +48,9 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
         return noteRepository.getAllNotes()
     }
 
+    //Method #5
+    fun updateNote(note: Note) {
+        noteRepository.update(note)
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.dev5151.notezz.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.dev5151.notezz.data.Note
 import com.dev5151.notezz.data.NoteDao
@@ -8,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NoteRepository @Inject constructor(val noteDao: NoteDao) {
+class NoteRepository @Inject constructor(private val noteDao: NoteDao) {
 
 
     // Method #1
@@ -34,6 +35,14 @@ class NoteRepository @Inject constructor(val noteDao: NoteDao) {
         return noteDao.getAllNotes()
     }
 
+    //Method #4
+    //function to update note in database
+    fun update(note: Note) {
+        CoroutineScope(Dispatchers.IO).launch {
+            noteDao.update(note)
+            Log.e("DEBUG", "update is called in repo")
+        }
+    }
 
 
 }
