@@ -67,6 +67,18 @@ class NoteActivity : DaggerAppCompatActivity() {
             finish()
         }
 
+        binding.imgRemoveWebUrl.setOnClickListener {
+            binding.tvWebUrl.text = null
+            binding.layoutWebUrl.visibility = View.GONE
+        }
+
+        binding.imgRemoveImage.setOnClickListener {
+            binding.imageNote.setImageBitmap(null)
+            imageNote.visibility = View.GONE
+            binding.imgRemoveImage.visibility = View.GONE
+            imagePath = ""
+        }
+
         if (intent.getBooleanExtra("isViewOrUpdate", false)) {
             alreadyAvailableNote = intent.getSerializableExtra("note") as Note?
             setViewOrUpdateNote()
@@ -82,19 +94,21 @@ class NoteActivity : DaggerAppCompatActivity() {
         binding.edtSubTitle.setText(alreadyAvailableNote?.subtitle)
         binding.edtNote.setText(alreadyAvailableNote?.noteText)
         binding.tvDateTime.text = alreadyAvailableNote?.dateTime
+
         if (alreadyAvailableNote!!.imagePath != null && alreadyAvailableNote!!.imagePath.toString().trim().isNotEmpty()) {
             binding.imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote!!.imagePath))
-            imageNote.visibility = View.VISIBLE
+            binding.imageNote.visibility = View.VISIBLE
+            binding.imgRemoveImage.visibility = View.VISIBLE
             imagePath = alreadyAvailableNote!!.imagePath.toString()
-        }else{
-            binding.imageNote.visibility=View.GONE
+        } else {
+            binding.imageNote.visibility = View.GONE
         }
 
         if (alreadyAvailableNote!!.web_link != null && alreadyAvailableNote!!.web_link.toString().trim().isNotEmpty()) {
             binding.tvWebUrl.text = alreadyAvailableNote!!.web_link
             binding.layoutWebUrl.visibility = View.VISIBLE
-        }else{
-            binding.imageNote.visibility=View.GONE
+        } else {
+            binding.imgRemoveWebUrl.visibility = View.GONE
         }
     }
 
@@ -115,10 +129,7 @@ class NoteActivity : DaggerAppCompatActivity() {
             webLink = binding.tvWebUrl.text.toString()
 
         }
-        /*   if (alreadyAvailableNote != null) {
-               noteViewModel.saveNote(alreadyAvailableNote!!.id, title, subtitle, note, imagePath, selectedNoteColor, webLink)
-           }
-   */
+
         if (alreadyAvailableNote == null) {
             noteViewModel.saveNote(0, title, subtitle, note, imagePath, selectedNoteColor, webLink)
         } else {
@@ -314,6 +325,8 @@ class NoteActivity : DaggerAppCompatActivity() {
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 binding.imageNote.setImageBitmap(bitmap)
                 binding.imageNote.visibility = View.VISIBLE
+
+                binding.imgRemoveImage.visibility = View.VISIBLE
 
                 imagePath = getPathFromUri(uri).toString()
             }
