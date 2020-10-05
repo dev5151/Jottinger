@@ -16,8 +16,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:viewBindingIgnore="true"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        tools:viewBindingIgnore="true">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/edt_note_title" />
 
                 <View
-                    android:id="@+id/view"
+                    android:id="@+id/viewSubtitleIndicator"
                     android:layout_width="10dp"
                     android:layout_height="0dp"
                     android:background="@drawable/custom_shape"
@@ -116,7 +116,7 @@
                     android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/view"
+                    app:layout_constraintStart_toEndOf="@+id/viewSubtitleIndicator"
                     app:layout_constraintTop_toBottomOf="@+id/tv_date_time" />
 
                 <EditText
@@ -143,9 +143,10 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <include layout="@layout/layout_miscellaneous"
+        <include
             android:id="@+id/layout_misc"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+            layout="@layout/layout_miscellaneous"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

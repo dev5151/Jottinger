@@ -18,9 +18,9 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
         activity.onBackPressed()
     }
 */
-    fun saveNote(title: String, subtitle: String, note: String) {
+    fun saveNote(title: String, subtitle: String, note: String,color:String) {
 
-        insert(Note(0, title, subtitle, dateTime, note))
+        insert(Note(0, title, subtitle, dateTime, note,null,color))
     }
 
 

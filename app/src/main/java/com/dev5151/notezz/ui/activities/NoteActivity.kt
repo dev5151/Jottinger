@@ -1,5 +1,7 @@
 package com.dev5151.notezz.ui.activities
 
+import android.content.res.Resources
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -13,6 +15,7 @@ import com.dev5151.notezz.databinding.ActivityNoteBinding
 import com.dev5151.notezz.databinding.LayoutMiscellaneousBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_note.*
 import kotlinx.android.synthetic.main.activity_note.view.*
 import javax.inject.Inject
 
@@ -26,14 +29,13 @@ class NoteActivity : DaggerAppCompatActivity() {
 
     lateinit var binding: ActivityNoteBinding
 
-    //private var save: ImageView? = null
+    private var selectedNoteColor: String = "#333333"
 
+    //private var save: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_note)
-
-        //val includedView: LayoutMiscellaneousBinding = binding.layoutMisc
 
         setupViewModel()
         binding.noteViewModel = noteViewModel
@@ -47,6 +49,7 @@ class NoteActivity : DaggerAppCompatActivity() {
         }
 
         initMiscellaneous()
+        setSubTitleIndicatorColor()
 
     }
 
@@ -63,7 +66,7 @@ class NoteActivity : DaggerAppCompatActivity() {
         val subtitle = binding.edtSubTitle.text.toString()
         val note = binding.edtNote.text.toString()
 
-        noteViewModel.saveNote(title, subtitle, note)
+        noteViewModel.saveNote(title, subtitle, note,selectedNoteColor)
         Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -80,6 +83,62 @@ class NoteActivity : DaggerAppCompatActivity() {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
+
+        binding.layoutMisc.imgColorDefault.setOnClickListener{
+            selectedNoteColor="#333333"
+            binding.layoutMisc.imgColorDefault.setImageResource(R.drawable.ic_tick)
+            binding.layoutMisc.imgColorYellow.setImageResource(0)
+            binding.layoutMisc.imgColorRed.setImageResource(0)
+            binding.layoutMisc.imgColorBlue.setImageResource(0)
+            binding.layoutMisc.imgColorBlack.setImageResource(0)
+            setSubTitleIndicatorColor()
+        }
+
+        binding.layoutMisc.imgColorYellow.setOnClickListener{
+            selectedNoteColor="#FDBE38"
+            binding.layoutMisc.imgColorDefault.setImageResource(0)
+            binding.layoutMisc.imgColorYellow.setImageResource(R.drawable.ic_tick)
+            binding.layoutMisc.imgColorRed.setImageResource(0)
+            binding.layoutMisc.imgColorBlue.setImageResource(0)
+            binding.layoutMisc.imgColorBlack.setImageResource(0)
+            setSubTitleIndicatorColor()
+
+        }
+
+        binding.layoutMisc.imgColorRed.setOnClickListener{
+            selectedNoteColor="#FF4842"
+            binding.layoutMisc.imgColorDefault.setImageResource(0)
+            binding.layoutMisc.imgColorYellow.setImageResource(0)
+            binding.layoutMisc.imgColorRed.setImageResource(R.drawable.ic_tick)
+            binding.layoutMisc.imgColorBlue.setImageResource(0)
+            binding.layoutMisc.imgColorBlack.setImageResource(0)
+            setSubTitleIndicatorColor()
+        }
+
+        binding.layoutMisc.imgColorBlue.setOnClickListener{
+            selectedNoteColor="#3A52Fc"
+            binding.layoutMisc.imgColorDefault.setImageResource(0)
+            binding.layoutMisc.imgColorYellow.setImageResource(0)
+            binding.layoutMisc.imgColorRed.setImageResource(0)
+            binding.layoutMisc.imgColorBlue.setImageResource(R.drawable.ic_tick)
+            binding.layoutMisc.imgColorBlack.setImageResource(0)
+            setSubTitleIndicatorColor()
+        }
+
+        binding.layoutMisc.imgColorBlack.setOnClickListener{
+            selectedNoteColor="#000000"
+            binding.layoutMisc.imgColorDefault.setImageResource(0)
+            binding.layoutMisc.imgColorYellow.setImageResource(0)
+            binding.layoutMisc.imgColorRed.setImageResource(0)
+            binding.layoutMisc.imgColorBlue.setImageResource(0)
+            binding.layoutMisc.imgColorBlack.setImageResource(R.drawable.ic_tick)
+            setSubTitleIndicatorColor()
+        }
+    }
+
+    private fun setSubTitleIndicatorColor(){
+        val gradientDrawable=binding.viewSubtitleIndicator.background
+        gradientDrawable.setTint(Color.parseColor(selectedNoteColor))
     }
 
 
