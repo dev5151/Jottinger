@@ -1,22 +1,25 @@
 package com.dev5151.notezz.ui.activities
 
-import android.content.res.Resources
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.dev5151.notezz.NoteViewModel
 import com.dev5151.notezz.R
 import com.dev5151.notezz.di.ViewModelProviderFactory
 import com.dev5151.notezz.databinding.ActivityNoteBinding
-import com.dev5151.notezz.databinding.LayoutMiscellaneousBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_note.*
-import kotlinx.android.synthetic.main.activity_note.view.*
 import javax.inject.Inject
 
 
@@ -31,7 +34,8 @@ class NoteActivity : DaggerAppCompatActivity() {
 
     private var selectedNoteColor: String = "#333333"
 
-    //private var save: ImageView? = null
+    private var imagePath = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +70,7 @@ class NoteActivity : DaggerAppCompatActivity() {
         val subtitle = binding.edtSubTitle.text.toString()
         val note = binding.edtNote.text.toString()
 
-        noteViewModel.saveNote(title, subtitle, note,selectedNoteColor)
+        noteViewModel.saveNote(title, subtitle, note, imagePath, selectedNoteColor)
         Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -84,8 +88,8 @@ class NoteActivity : DaggerAppCompatActivity() {
             }
         }
 
-        binding.layoutMisc.imgColorDefault.setOnClickListener{
-            selectedNoteColor="#333333"
+        binding.layoutMisc.imgColorDefault.setOnClickListener {
+            selectedNoteColor = "#333333"
             binding.layoutMisc.imgColorDefault.setImageResource(R.drawable.ic_tick)
             binding.layoutMisc.imgColorYellow.setImageResource(0)
             binding.layoutMisc.imgColorRed.setImageResource(0)
@@ -94,19 +98,18 @@ class NoteActivity : DaggerAppCompatActivity() {
             setSubTitleIndicatorColor()
         }
 
-        binding.layoutMisc.imgColorYellow.setOnClickListener{
-            selectedNoteColor="#FDBE38"
+        binding.layoutMisc.imgColorYellow.setOnClickListener {
+            selectedNoteColor = "#FDBE38"
             binding.layoutMisc.imgColorDefault.setImageResource(0)
             binding.layoutMisc.imgColorYellow.setImageResource(R.drawable.ic_tick)
             binding.layoutMisc.imgColorRed.setImageResource(0)
             binding.layoutMisc.imgColorBlue.setImageResource(0)
             binding.layoutMisc.imgColorBlack.setImageResource(0)
             setSubTitleIndicatorColor()
-
         }
 
-        binding.layoutMisc.imgColorRed.setOnClickListener{
-            selectedNoteColor="#FF4842"
+        binding.layoutMisc.imgColorRed.setOnClickListener {
+            selectedNoteColor = "#FF4842"
             binding.layoutMisc.imgColorDefault.setImageResource(0)
             binding.layoutMisc.imgColorYellow.setImageResource(0)
             binding.layoutMisc.imgColorRed.setImageResource(R.drawable.ic_tick)
@@ -115,8 +118,8 @@ class NoteActivity : DaggerAppCompatActivity() {
             setSubTitleIndicatorColor()
         }
 
-        binding.layoutMisc.imgColorBlue.setOnClickListener{
-            selectedNoteColor="#3A52Fc"
+        binding.layoutMisc.imgColorBlue.setOnClickListener {
+            selectedNoteColor = "#3A52Fc"
             binding.layoutMisc.imgColorDefault.setImageResource(0)
             binding.layoutMisc.imgColorYellow.setImageResource(0)
             binding.layoutMisc.imgColorRed.setImageResource(0)
@@ -125,8 +128,8 @@ class NoteActivity : DaggerAppCompatActivity() {
             setSubTitleIndicatorColor()
         }
 
-        binding.layoutMisc.imgColorBlack.setOnClickListener{
-            selectedNoteColor="#000000"
+        binding.layoutMisc.imgColorBlack.setOnClickListener {
+            selectedNoteColor = "#000000"
             binding.layoutMisc.imgColorDefault.setImageResource(0)
             binding.layoutMisc.imgColorYellow.setImageResource(0)
             binding.layoutMisc.imgColorRed.setImageResource(0)
@@ -134,17 +137,95 @@ class NoteActivity : DaggerAppCompatActivity() {
             binding.layoutMisc.imgColorBlack.setImageResource(R.drawable.ic_tick)
             setSubTitleIndicatorColor()
         }
+
+        binding.layoutMisc.layoutAddImage.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(READ_EXTERNAL_STORAGE),
+                        READ_EXTERNAL_STORAGE_REQUEST_CODE
+                )
+            } else {
+                pickImage()
+            }
+        }
     }
 
-    private fun setSubTitleIndicatorColor(){
-        val gradientDrawable=binding.viewSubtitleIndicator.background
+    private fun pickImage() {
+        val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI
+        )
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
+    }
+
+    private fun getPathFromUri(uri: Uri): String? {
+        var filePath: String? = null
+        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, filePathColumn, null, null, null)
+        if (cursor != null) {
+            cursor.moveToFirst()
+            val index = cursor.getColumnIndex("_data")
+            filePath = cursor.getString(index)
+            cursor.close()
+        } else {
+            filePath = uri.path.toString()
+        }
+        return filePath
+
+    }
+
+    private fun setSubTitleIndicatorColor() {
+        val gradientDrawable = binding.viewSubtitleIndicator.background
         gradientDrawable.setTint(Color.parseColor(selectedNoteColor))
     }
-
 
     private fun setupViewModel() {
         noteViewModel = ViewModelProvider(this, viewModelProviderFactory).get(NoteViewModel::class.java)
 
+    }
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            READ_EXTERNAL_STORAGE_REQUEST_CODE -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // pick image after request permission success
+                    pickImage()
+                } else {
+                    Toast.makeText(this, "Permission is required", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST_CODE) {
+            if (resultCode != Activity.RESULT_OK) {
+                return
+            }
+            val uri = data?.data
+            if (uri != null) {
+                val inputStream = contentResolver.openInputStream(uri)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                binding.imageNote.setImageBitmap(bitmap)
+                binding.imageNote.visibility = View.VISIBLE
+
+                imagePath = getPathFromUri(uri).toString()
+            }
+        }
+    }
+
+    companion object {
+        const val PICK_IMAGE_REQUEST_CODE = 1000
+        const val READ_EXTERNAL_STORAGE_REQUEST_CODE = 1001
     }
 
 

@@ -13,14 +13,14 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
 
     var dateTime: String? = SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(Date())
 
-  /*  //private val context = getApplication<Application>().applicationContext
-    fun onBackButtonClick(activity: NoteActivity) {
-        activity.onBackPressed()
-    }
-*/
-    fun saveNote(title: String, subtitle: String, note: String,color:String) {
+    /*  //private val context = getApplication<Application>().applicationContext
+      fun onBackButtonClick(activity: NoteActivity) {
+          activity.onBackPressed()
+      }
+  */
+    fun saveNote(title: String, subtitle: String, note: String, imagePath: String, color: String) {
 
-        insert(Note(0, title, subtitle, dateTime, note,null,color))
+        insert(Note(0, title, subtitle, dateTime, note, imagePath, color))
     }
 
 
@@ -38,9 +38,9 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
     }
 
     // Method #3
-   /* fun deleteById(id: Int) {
-        noteRepository.deleteById(id)
-    }*/
+    /* fun deleteById(id: Int) {
+         noteRepository.deleteById(id)
+     }*/
 
     // Method #4
     fun getAllNotes(): LiveData<List<Note>>? {
