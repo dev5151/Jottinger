@@ -360,9 +360,7 @@ class NoteActivity : DaggerAppCompatActivity() {
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 binding.imageNote.setImageBitmap(bitmap)
                 binding.imageNote.visibility = View.VISIBLE
-
                 binding.imgRemoveImage.visibility = View.VISIBLE
-
                 imagePath = getPathFromUri(uri).toString()
             }
         }

@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menuAddNote"
-        android:icon="@drawable/ic_add_note"
+        android:id="@+id/menuAddUrl"
+        android:icon="@drawable/ic_add_url"
         android:iconTint="@color/colorIcons"
-        android:title="Add Note"
-        app:showAsAction="ifRoom" />
+        android:title="Add Url"
+        app:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute" />
 
     <item
         android:id="@+id/menuAddPic"
         android:icon="@drawable/ic_add_image"
         android:iconTint="@color/colorIcons"
         android:title="Add Photo"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute" />
 
     <item
         android:id="@+id/menuAddList"
         android:icon="@drawable/ic_add_list"
         android:iconTint="@color/colorIcons"
         android:title="Add List"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute" />
 
 </menu>
