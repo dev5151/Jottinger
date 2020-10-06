@@ -1,8 +1,12 @@
 package com.dev5151.notezz.ui.activities
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +16,8 @@ import com.dev5151.notezz.NoteViewModel
 import com.dev5151.notezz.R
 import com.dev5151.notezz.adapter.NoteAdapter
 import com.dev5151.notezz.data.Note
+import com.dev5151.notezz.databinding.ActivityMainBinding
+import com.dev5151.notezz.databinding.ActivityNoteBinding
 import com.dev5151.notezz.di.ViewModelProviderFactory
 import com.dev5151.notezz.ui.NoteClickInterface
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,11 +25,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity(), NoteClickInterface {
+class MainActivity : DaggerAppCompatActivity(), NoteClickInterface, SearchView.OnQueryTextListener {
 
     private lateinit var noteAdapter: NoteAdapter
-
-    private var fabAddNotes: FloatingActionButton? = null
 
     private lateinit var noteViewModel: NoteViewModel
 
@@ -31,6 +35,8 @@ class MainActivity : DaggerAppCompatActivity(), NoteClickInterface {
 
     private var noteClickedPosition = -1
 
+
+    lateinit var mainActivityBinding: ActivityMainBinding
 
     @Inject
     lateinit var viewModelProviderFactory: ViewModelProviderFactory
@@ -40,23 +46,31 @@ class MainActivity : DaggerAppCompatActivity(), NoteClickInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+
 
         initView()
         setupViewModel()
         noteClickInterface = this
         initRecyclerView(allNotes, this)
         observeLiveData()
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        mainActivityBinding.searchView.setOnClickListener {
+            mainActivityBinding.searchView.setSearchableInfo(searchManager.getSearchableInfo(this.componentName))
+
+        }
+        mainActivityBinding.searchView.isIconifiedByDefault = false
+        mainActivityBinding.searchView.setOnQueryTextListener(this)
 
 
-
-        fabAddNotes!!.setOnClickListener { startActivity(Intent(this@MainActivity, NoteActivity::class.java)) }
+        mainActivityBinding.fab.setOnClickListener { startActivity(Intent(this@MainActivity, NoteActivity::class.java)) }
 
     }
 
     private fun initView() {
         allNotes = emptyList()
-        fabAddNotes = findViewById(R.id.fab)
     }
 
     private fun setupViewModel() {
@@ -74,7 +88,7 @@ class MainActivity : DaggerAppCompatActivity(), NoteClickInterface {
     }
 
     private fun initRecyclerView(allNote: List<Note>, noteClickInterface: NoteClickInterface) {
-        recyclerView.apply {
+        mainActivityBinding.recyclerView.apply {
             noteAdapter = NoteAdapter(
                     allNotes, noteClickInterface
             )
@@ -94,6 +108,15 @@ class MainActivity : DaggerAppCompatActivity(), NoteClickInterface {
         intent.putExtra("isViewOrUpdate", true)
         intent.putExtra("note", note)
         startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE)
+    }
+
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(p0: String?): Boolean {
+        noteAdapter.filter.filter(p0)
+        return false
     }
 
 }

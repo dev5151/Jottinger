@@ -5,15 +5,21 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.dev5151.notezz.R
 import com.dev5151.notezz.data.Note
 import com.dev5151.notezz.ui.NoteClickInterface
 import kotlinx.android.synthetic.main.note_item.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
-class NoteAdapter(noteList: List<Note>, private val noteClickInterface: NoteClickInterface) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(noteList: List<Note>, private val noteClickInterface: NoteClickInterface) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(), Filterable {
 
-    private val notes = mutableListOf<Note>()
+    private val notes = ArrayList<Note>()
 
     init {
         notes.addAll(noteList)
@@ -60,6 +66,40 @@ class NoteAdapter(noteList: List<Note>, private val noteClickInterface: NoteClic
                 noteClickInterface.noteClick(adapterPosition, note)
             }
         }
+
     }
 
+    override fun getFilter(): Filter {
+        return notesFilter
+    }
+
+    private var notesFilter = object : Filter() {
+        override fun performFiltering(charSequence: CharSequence?): FilterResults {
+            val filteredNotes = ArrayList<Note>()
+            if (charSequence == null || charSequence.isEmpty()) {
+                filteredNotes.addAll(noteList)
+            } else {
+                val filterPattern = charSequence.toString().toLowerCase().trim()
+                for (note: Note in noteList) {
+                    if (note.title!!.toLowerCase().contains(filterPattern)) {
+                        filteredNotes.add(note)
+                    }
+                }
+            }
+
+            val results = FilterResults()
+            results.values = filteredNotes
+            return results
+        }
+
+        override fun publishResults(p0: CharSequence?, filterResults: FilterResults?) {
+            notes.clear()
+            notes.addAll(filterResults?.values as ArrayList<Note>)
+            notifyDataSetChanged()
+        }
+
+    }
+
+
 }
+

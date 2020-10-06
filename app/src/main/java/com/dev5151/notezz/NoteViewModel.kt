@@ -29,7 +29,7 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
 
     // Method #1
     private fun insert(note: Note) {
-        return noteRepository.insert(note)
+        noteRepository.insert(note)
     }
 
     // Method #2
