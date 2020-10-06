@@ -229,6 +229,41 @@ class NoteActivity : DaggerAppCompatActivity() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             showUrlDialog()
         }
+
+        if (alreadyAvailableNote != null) {
+            binding.layoutMisc.layoutDeleteNote.visibility = View.VISIBLE
+            binding.layoutMisc.layoutDeleteNote.setOnClickListener {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                showDeleteNoteDialog()
+            }
+        }
+
+    }
+
+    private fun showDeleteNoteDialog() {
+        val builder = AlertDialog.Builder(this@NoteActivity)
+        val view = LayoutInflater.from(this).inflate(R.layout.layout_delete_note, null)
+        builder.setView(view)
+
+        val alertDialog = builder.create()
+        if (alertDialog.window != null) {
+            alertDialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+        }
+
+        view.findViewById<TextView>(R.id.tvDeleteNote).setOnClickListener {
+            noteViewModel.delete(alreadyAvailableNote!!)
+            alertDialog.dismiss()
+            finish()
+        }
+
+
+        view.findViewById<TextView>(R.id.tvCancelDeleteNote).setOnClickListener {
+            alertDialog.dismiss()
+            finish()
+        }
+
+        alertDialog.show()
+
     }
 
     private fun pickImage() {

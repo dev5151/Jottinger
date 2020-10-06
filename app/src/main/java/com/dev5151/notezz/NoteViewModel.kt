@@ -34,7 +34,7 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
 
     // Method #2
     fun delete(note: Note) {
-        noteRepository.delete(note)
+         noteRepository.delete(note)
     }
 
     // Method #3
