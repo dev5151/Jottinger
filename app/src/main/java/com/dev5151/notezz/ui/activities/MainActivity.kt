@@ -62,6 +62,7 @@ class MainActivity : DaggerAppCompatActivity(), NoteClickInterface, SearchView.O
     lateinit var allNotes: List<Note>
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,7 +86,11 @@ class MainActivity : DaggerAppCompatActivity(), NoteClickInterface, SearchView.O
 
         mainActivityBinding.fab.setOnClickListener { startActivity(Intent(this@MainActivity, NoteActivity::class.java)) }
 
+    }
 
+    override fun onPostResume() {
+        super.onPostResume()
+        mainActivityBinding.searchView.clearFocus()
     }
 
     private fun initView() {

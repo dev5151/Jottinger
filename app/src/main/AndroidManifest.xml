@@ -16,12 +16,12 @@
         android:theme="@style/AppTheme"
         tools:targetApi="q">
         <activity android:name="com.dev5151.notezz.ui.activities.NoteActivity" />
-        <activity android:name="com.dev5151.notezz.ui.activities.MainActivity">
+        <activity android:name="com.dev5151.notezz.ui.activities.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
