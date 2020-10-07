@@ -1,4 +1,4 @@
-package com.dev5151.notezz;
+package com.dev5151.jottinger;
 
 import android.content.Context;
 

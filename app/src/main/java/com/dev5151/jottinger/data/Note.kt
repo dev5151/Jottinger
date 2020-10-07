@@ -1,4 +1,4 @@
-package com.dev5151.notezz.data
+package com.dev5151.jottinger.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

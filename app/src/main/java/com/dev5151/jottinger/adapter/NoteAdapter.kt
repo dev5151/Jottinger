@@ -1,4 +1,4 @@
-package com.dev5151.notezz.adapter
+package com.dev5151.jottinger.adapter
 
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -8,13 +8,10 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.dev5151.notezz.R
-import com.dev5151.notezz.data.Note
-import com.dev5151.notezz.ui.NoteClickInterface
+import com.dev5151.jottinger.R
+import com.dev5151.jottinger.data.Note
+import com.dev5151.jottinger.ui.NoteClickInterface
 import kotlinx.android.synthetic.main.note_item.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.collections.ArrayList
 
 class NoteAdapter(noteList: List<Note>, private val noteClickInterface: NoteClickInterface) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(), Filterable {

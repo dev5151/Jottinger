@@ -1,10 +1,10 @@
-package com.dev5151.notezz
+package com.dev5151.jottinger
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dev5151.notezz.data.Note
-import com.dev5151.notezz.repository.NoteRepository
+import com.dev5151.jottinger.data.Note
+import com.dev5151.jottinger.repository.NoteRepository
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

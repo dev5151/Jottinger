@@ -9,7 +9,7 @@
 
         <variable
             name="noteViewModel"
-            type="com.dev5151.notezz.NoteViewModel" />
+            type="com.dev5151.jottinger.NoteViewModel" />
 
     </data>
 

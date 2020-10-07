@@ -1,4 +1,4 @@
-package com.dev5151.notezz.ui.activities
+package com.dev5151.jottinger.ui.activities
 
 import android.Manifest
 import android.app.Activity
@@ -7,7 +7,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -16,31 +15,25 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.dev5151.notezz.NoteListener
-import com.dev5151.notezz.NoteViewModel
-import com.dev5151.notezz.R
-import com.dev5151.notezz.adapter.NoteAdapter
-import com.dev5151.notezz.data.Note
-import com.dev5151.notezz.databinding.ActivityMainBinding
-import com.dev5151.notezz.databinding.ActivityNoteBinding
-import com.dev5151.notezz.di.ViewModelProviderFactory
-import com.dev5151.notezz.ui.NoteClickInterface
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.dev5151.jottinger.NoteViewModel
+import com.dev5151.jottinger.R
+import com.dev5151.jottinger.adapter.NoteAdapter
+import com.dev5151.jottinger.data.Note
+import com.dev5151.jottinger.databinding.ActivityMainBinding
+import com.dev5151.jottinger.databinding.ActivityNoteBinding
+import com.dev5151.jottinger.di.ViewModelProviderFactory
+import com.dev5151.jottinger.ui.NoteClickInterface
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity(), NoteClickInterface, SearchView.OnQueryTextListener {

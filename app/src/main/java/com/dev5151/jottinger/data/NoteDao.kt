@@ -1,4 +1,4 @@
-package com.dev5151.notezz.data
+package com.dev5151.jottinger.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

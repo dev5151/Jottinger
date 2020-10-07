@@ -1,9 +1,8 @@
-package com.dev5151.notezz.ui.activities
+package com.dev5151.jottinger.ui.activities
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -21,16 +20,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.dev5151.notezz.NoteViewModel
-import com.dev5151.notezz.R
-import com.dev5151.notezz.data.Note
-import com.dev5151.notezz.di.ViewModelProviderFactory
-import com.dev5151.notezz.databinding.ActivityNoteBinding
+import com.dev5151.jottinger.NoteViewModel
+import com.dev5151.jottinger.R
+import com.dev5151.jottinger.data.Note
+import com.dev5151.jottinger.di.ViewModelProviderFactory
+import com.dev5151.jottinger.databinding.ActivityNoteBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_note.*
-import kotlinx.android.synthetic.main.layout_add_url_dialog.*
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 

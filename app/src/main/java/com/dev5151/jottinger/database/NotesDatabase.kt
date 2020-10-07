@@ -1,11 +1,11 @@
-package com.dev5151.notezz.database
+package com.dev5151.jottinger.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dev5151.notezz.data.Note
-import com.dev5151.notezz.data.NoteDao
+import com.dev5151.jottinger.data.Note
+import com.dev5151.jottinger.data.NoteDao
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NotesDatabase : RoomDatabase() {

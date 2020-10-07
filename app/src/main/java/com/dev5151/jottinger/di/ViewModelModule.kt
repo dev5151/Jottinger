@@ -1,7 +1,7 @@
-package com.dev5151.notezz.di
+package com.dev5151.jottinger.di
 
 import androidx.lifecycle.ViewModel
-import com.dev5151.notezz.NoteViewModel
+import com.dev5151.jottinger.NoteViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

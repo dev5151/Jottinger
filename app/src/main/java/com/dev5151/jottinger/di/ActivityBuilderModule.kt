@@ -1,7 +1,7 @@
-package com.dev5151.notezz.di
+package com.dev5151.jottinger.di
 
-import com.dev5151.notezz.ui.activities.MainActivity
-import com.dev5151.notezz.ui.activities.NoteActivity
+import com.dev5151.jottinger.ui.activities.MainActivity
+import com.dev5151.jottinger.ui.activities.NoteActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,7 +1,7 @@
-package com.dev5151.notezz.di
+package com.dev5151.jottinger.di
 
 import android.app.Application
-import com.dev5151.notezz.BaseApplication
+import com.dev5151.jottinger.BaseApplication
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

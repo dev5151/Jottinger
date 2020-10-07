@@ -1,6 +1,6 @@
-package com.dev5151.notezz
+package com.dev5151.jottinger
 
-import com.dev5151.notezz.di.DaggerAppComponent
+import com.dev5151.jottinger.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

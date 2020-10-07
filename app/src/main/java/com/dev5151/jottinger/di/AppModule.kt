@@ -1,10 +1,10 @@
-package com.dev5151.notezz.di
+package com.dev5151.jottinger.di
 
 import android.app.Application
 import androidx.room.Room
-import com.dev5151.notezz.data.NoteDao
-import com.dev5151.notezz.repository.NoteRepository
-import com.dev5151.notezz.database.NotesDatabase
+import com.dev5151.jottinger.data.NoteDao
+import com.dev5151.jottinger.repository.NoteRepository
+import com.dev5151.jottinger.database.NotesDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
