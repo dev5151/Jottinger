@@ -82,7 +82,23 @@ class NoteActivity : DaggerAppCompatActivity() {
         if (intent.getBooleanExtra("isViewOrUpdate", false)) {
             alreadyAvailableNote = intent.getSerializableExtra("note") as Note?
             setViewOrUpdateNote()
+        }else if (intent.getBooleanExtra("isFromQuickAction", false)) {
+            val type = intent.getStringExtra("quickActionType");
+            if (type != null) {
+                if (type == "image") {
+                    imagePath = intent.getStringExtra("selectedImagePath")
+                    binding.imageNote.setImageBitmap(BitmapFactory.decodeFile(imagePath))
+                    binding.imageNote.visibility = View.VISIBLE
+                    binding.imgRemoveImage.visibility = View.VISIBLE
+
+                }else if( type=="url"){
+                    binding.tvWebUrl.text = intent.getStringExtra("url")
+                    binding.layoutWebUrl.visibility = View.VISIBLE
+                }
+            }
         }
+
+
 
         initMiscellaneous()
         setSubTitleIndicatorColor()

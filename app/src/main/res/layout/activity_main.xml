@@ -66,7 +66,7 @@
 
 
         <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_bar"
+            android:id="@+id/bottomAppBar"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
             android:scaleType="center"
             app:backgroundTint="@color/colorAccent"
             app:elevation="8dp"
-            app:layout_anchor="@+id/bottom_bar"
+            app:layout_anchor="@+id/bottomAppBar"
             app:layout_anchorGravity="top|center"
             app:maxImageSize="35dp"
             app:srcCompat="@drawable/ic_add" />
